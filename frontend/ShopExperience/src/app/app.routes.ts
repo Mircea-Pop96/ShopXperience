@@ -14,6 +14,20 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'admin/category',
+    loadComponent: () =>
+      import('./admin/components/post-category/post-category.component').then(
+        (mod) => mod.PostCategoryComponent
+      ),
+  },
+  {
+    path: 'admin/product',
+    loadComponent: () =>
+      import('./admin/components/post-product/post-product.component').then(
+        (mod) => mod.PostProductComponent
+      ),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./login/login.component').then((mod) => mod.LoginComponent),
