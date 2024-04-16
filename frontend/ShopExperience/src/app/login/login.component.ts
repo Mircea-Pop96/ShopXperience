@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { UserStorageService } from '../services/storage/user-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -61,9 +62,11 @@ export class LoginComponent {
 
     this.authService.login(username, password).subscribe(
       (response) => {
-        this.snackBar.open('Login succesful!', 'Ok', {
-          duration: 5000,
-        });
+        if (UserStorageService.isAdminLoggedIn()) {
+          this.router.navigateByUrl('admin/dashboard');
+        } else if (UserStorageService.isCustomerLoggedIn) {
+          this.router.navigateByUrl('customer/dashboard');
+        }
       },
       (error) => {
         this.snackBar.open('Bad credentials. Please try again.', 'ERROR', {
