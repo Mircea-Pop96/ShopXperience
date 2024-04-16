@@ -75,7 +75,6 @@ export class DashboardComponent {
         element.processedImg = 'data:image/jpeg;base64,' + element.byteImg;
         this.products.push(element);
       });
-      console.log(this.products);
     });
   }
 
