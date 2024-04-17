@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminService } from '../../../admin/service/admin.service';
-import { CustomerService } from '../services/customer.service';
+import { CustomerService } from '../../services/customer.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -76,6 +76,10 @@ export class DashboardComponent {
   }
 
   addToCart(id: any) {
-    
+    this.customerService.addToCart(id).subscribe((res) => {
+      this.snackBar.open('Product added to cart succesfully', 'Close', {
+        duration: 5000,
+      });
+    });
   }
 }

@@ -45,6 +45,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'customer/cart',
+    loadComponent: () =>
+      import('./customer/components/cart/cart.component').then(
+        (mod) => mod.CartComponent
+      ),
+  },
+  {
     path: 'customer/dashboard',
     loadComponent: () =>
       import('./customer/components/dashboard/dashboard.component').then(
