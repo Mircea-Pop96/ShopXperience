@@ -28,6 +28,20 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'admin/post-coupon',
+    loadComponent: () =>
+      import('./admin/components/post-coupon/post-coupon.component').then(
+        (mod) => mod.PostCouponComponent
+      ),
+  },
+  {
+    path: 'admin/coupons',
+    loadComponent: () =>
+      import('./admin/components/coupons/coupons.component').then(
+        (mod) => mod.CouponsComponent
+      ),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./login/login.component').then((mod) => mod.LoginComponent),
