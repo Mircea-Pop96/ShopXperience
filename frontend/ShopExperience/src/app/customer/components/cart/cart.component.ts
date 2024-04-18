@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+import { PlaceOrderComponent } from '../place-order/place-order.component';
 
 @Component({
   selector: 'app-cart',
@@ -84,5 +85,27 @@ export class CartComponent {
         this.cartItems.push(element);
       });
     });
+  }
+
+  increaseQuantity(productId: any) {
+    this.customerService.increaseProductQuantity(productId).subscribe((res) => {
+      this.snackBar.open('Product Quantity increased', 'Close', {
+        duration: 5000,
+      });
+      this.getCart();
+    });
+  }
+
+  decreaseQuantity(productId: any) {
+    this.customerService.decreaseProductQuantity(productId).subscribe((res) => {
+      this.snackBar.open('Product Quantity decreased', 'Close', {
+        duration: 5000,
+      });
+      this.getCart();
+    });
+  }
+
+  placeOrder() {
+    this.dialog.open(PlaceOrderComponent);
   }
 }

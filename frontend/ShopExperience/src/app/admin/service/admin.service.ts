@@ -53,6 +53,18 @@ export class AdminService {
     });
   }
 
+  getPlacedOrders(): Observable<any> {
+    return this.http.get(BASIC_URL + 'api/admin/placedOrders', {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
+  changeOrderStatus(orderId: number, status: string): Observable<any> {
+    return this.http.get(BASIC_URL + `api/admin/order/${orderId}/${status}`, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
   getCoupons(): Observable<any> {
     return this.http.get(BASIC_URL + 'api/admin/coupons', {
       headers: this.createAuthorizationHeader(),

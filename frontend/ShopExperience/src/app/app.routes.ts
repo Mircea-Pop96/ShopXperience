@@ -42,6 +42,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'admin/orders',
+    loadComponent: () =>
+      import('./admin/components/orders/orders.component').then(
+        (mod) => mod.OrdersComponent
+      ),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./login/login.component').then((mod) => mod.LoginComponent),
