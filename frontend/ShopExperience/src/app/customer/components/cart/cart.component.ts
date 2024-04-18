@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -35,6 +41,8 @@ export class CartComponent {
   cartItems: any[] = [];
   order: any;
 
+  couponForm!: FormGroup;
+
   constructor(
     private customerService: CustomerService,
     private fb: FormBuilder,
@@ -43,7 +51,28 @@ export class CartComponent {
   ) {}
 
   ngOnInit(): void {
+    this.couponForm = this.fb.group({
+      code: [null, [Validators.required]],
+    });
     this.getCart();
+  }
+
+  applyCoupon() {
+    this.customerService
+      .applyCoupon(this.couponForm.get(['code']).value)
+      .subscribe(
+        (res) => {
+          this.snackBar.open('Coupon Applied succesfully', 'Close', {
+            duration: 5000,
+          });
+          this.getCart();
+        },
+        (error) => {
+          this.snackBar.open(error.error, 'Close', {
+            duration: 5000,
+          });
+        }
+      );
   }
 
   getCart() {
