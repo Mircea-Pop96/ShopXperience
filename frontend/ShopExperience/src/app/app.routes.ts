@@ -28,6 +28,20 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'admin/product/:productId',
+    loadComponent: () =>
+      import('./admin/components/update-product/update-product.component').then(
+        (mod) => mod.UpdateProductComponent
+      ),
+  },
+  {
+    path: 'admin/faq/:productId',
+    loadComponent: () =>
+      import(
+        './admin/components/post-product-faq/post-product-faq.component'
+      ).then((mod) => mod.PostProductFaqComponent),
+  },
+  {
     path: 'admin/post-coupon',
     loadComponent: () =>
       import('./admin/components/post-coupon/post-coupon.component').then(
@@ -77,6 +91,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./customer/components/dashboard/dashboard.component').then(
         (mod) => mod.DashboardComponent
+      ),
+  },
+  {
+    path: 'customer/my_orders',
+    loadComponent: () =>
+      import('./customer/components/my-orders/my-orders.component').then(
+        (mod) => mod.MyOrdersComponent
       ),
   },
 ];
