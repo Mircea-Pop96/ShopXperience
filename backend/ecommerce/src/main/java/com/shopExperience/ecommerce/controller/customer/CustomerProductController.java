@@ -1,5 +1,6 @@
 package com.shopExperience.ecommerce.controller.customer;
 
+import com.shopExperience.ecommerce.dto.ProductDetailDto;
 import com.shopExperience.ecommerce.dto.ProductDto;
 import com.shopExperience.ecommerce.services.customer.CustomerProductService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,15 @@ public class CustomerProductController {
         List<ProductDto> productDtos = customerProductService.searchProductByTitle(name);
 
         return ResponseEntity.ok(productDtos);
+    }
+
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<ProductDetailDto> getProductDetailById(@PathVariable Long productId) {
+        ProductDetailDto productDetailDto = customerProductService.getProductDetailById(productId);
+        if(productDetailDto != null){
+            return ResponseEntity.ok(productDetailDto);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

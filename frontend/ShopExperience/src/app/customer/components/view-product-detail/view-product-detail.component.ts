@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { CustomerService } from '../../services/customer.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerService } from '../../services/customer.service';
 import { DatePipe, CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,10 +19,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-my-orders',
+  selector: 'app-view-product-detail',
   standalone: true,
   imports: [
     DatePipe,
@@ -44,28 +44,46 @@ import { Router } from '@angular/router';
     MatTableModule,
     CommonModule,
   ],
-  templateUrl: './my-orders.component.html',
-  styleUrl: './my-orders.component.scss',
+  templateUrl: './view-product-detail.component.html',
+  styleUrl: './view-product-detail.component.scss',
 })
-export class MyOrdersComponent {
-  myOrders: any;
+export class ViewProductDetailComponent {
+  productId: any;
+  product: any;
+  FAQS: any[] = [];
+  reviews: any[] = [];
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private customerService: CustomerService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
-    this.getMyOrders();
+    this.productId = this.activatedRoute.snapshot.params['productId'];
+    this.getProductDetailsById();
   }
 
-  getMyOrders() {
-    this.customerService.getOrdersByUserId().subscribe((res) => {
-      this.myOrders = res;
-    });
+  getProductDetailsById() {
+    this.customerService
+      .getProductDetailById(this.productId)
+      .subscribe((res) => {
+        this.product = res.productDto;
+        this.product.processedImg =
+          'data:image/png;base64, ' + res.productDto.byteImg;
+
+        this.FAQS = res.faqDtoList;
+
+        res.reviewDtoList.forEach((element) => {
+          element.processedImg =
+            'data:image/png;base64, ' + element.returnedImg;
+          this.reviews.push(element);
+        });
+      });
   }
 
-  goToOrderedProducts(orderId) {
-    this.router.navigateByUrl(`/customer/ordered_products/${orderId}`);
+  goToReview(productId) {
+    this.router.navigateByUrl(`/customer/review/${productId}`);
   }
 }

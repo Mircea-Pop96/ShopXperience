@@ -16,7 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,7 +44,8 @@ export class DashboardComponent {
   constructor(
     private customerService: CustomerService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -81,5 +82,9 @@ export class DashboardComponent {
         duration: 5000,
       });
     });
+  }
+
+  goToProductDetails(productId) {
+    this.router.navigateByUrl(`/customer/product/${productId}`);
   }
 }

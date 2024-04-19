@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../services/customer.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe, CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -16,12 +16,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-my-orders',
+  selector: 'app-view-ordered-products',
   standalone: true,
   imports: [
     DatePipe,
@@ -44,28 +44,37 @@ import { Router } from '@angular/router';
     MatTableModule,
     CommonModule,
   ],
-  templateUrl: './my-orders.component.html',
-  styleUrl: './my-orders.component.scss',
+  templateUrl: './view-ordered-products.component.html',
+  styleUrl: './view-ordered-products.component.scss',
 })
-export class MyOrdersComponent {
-  myOrders: any;
+export class ViewOrderedProductsComponent {
+  orderId: any;
+  orderedProductDetailsList = [];
+  totalAmount: any;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private customerService: CustomerService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.getMyOrders();
+    this.orderId = this.activatedRoute.snapshot.params['orderId'];
+    this.getOrderedProductDetailsByOrderId();
   }
 
-  getMyOrders() {
-    this.customerService.getOrdersByUserId().subscribe((res) => {
-      this.myOrders = res;
+  getOrderedProductDetailsByOrderId() {
+    this.customerService.getOrderedProducts(this.orderId).subscribe((res) => {
+      res.productDtoList.forEach((element) => {
+        element.processedImg = 'data:image/jpeg;base64, ' + element.byteImg;
+        this.orderedProductDetailsList.push(element);
+      });
+
+      this.totalAmount = res.orderAmount;
     });
   }
 
-  goToOrderedProducts(orderId) {
-    this.router.navigateByUrl(`/customer/ordered_products/${orderId}`);
+  goToReview(productId) {
+    this.router.navigateByUrl(`/customer/review/${productId}`);
   }
 }

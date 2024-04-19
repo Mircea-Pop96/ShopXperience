@@ -1,13 +1,13 @@
 package com.shopExperience.ecommerce.repository;
 
-import com.shopExperience.ecommerce.entity.FAQ;
+import com.shopExperience.ecommerce.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface FAQRepository extends JpaRepository<FAQ, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    List<FAQ> findAllByProductId(Long productId);
+    List<Review> findAllByProductId(Long productId);
 }

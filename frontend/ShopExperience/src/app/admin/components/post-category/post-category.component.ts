@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
+
 @Component({
   selector: 'app-post-category',
   standalone: true,
@@ -29,6 +30,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatIconModule,
     MatSnackBarModule,
+    
   ],
   templateUrl: './post-category.component.html',
   styleUrls: ['./post-category.component.scss'],

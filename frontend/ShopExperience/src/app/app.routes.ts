@@ -100,4 +100,25 @@ export const routes: Routes = [
         (mod) => mod.MyOrdersComponent
       ),
   },
+  {
+    path: 'customer/ordered_products/:orderId',
+    loadComponent: () =>
+      import(
+        './customer/components/view-ordered-products/view-ordered-products.component'
+      ).then((mod) => mod.ViewOrderedProductsComponent),
+  },
+  {
+    path: 'customer/review/:productId',
+    loadComponent: () =>
+      import(
+        './customer/components/review-ordered-product/review-ordered-product.component'
+      ).then((mod) => mod.ReviewOrderedProductComponent),
+  },
+  {
+    path: 'customer/product/:productId',
+    loadComponent: () =>
+      import(
+        './customer/components/view-product-detail/view-product-detail.component'
+      ).then((mod) => mod.ViewProductDetailComponent),
+  },
 ];
