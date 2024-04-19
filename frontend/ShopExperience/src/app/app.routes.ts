@@ -128,4 +128,18 @@ export const routes: Routes = [
         './customer/components/view-wish-list/view-wish-list.component'
       ).then((mod) => mod.ViewWishlistComponent),
   },
+  {
+    path: 'order',
+    loadComponent: () =>
+      import('./track-order/track-order.component').then(
+        (mod) => mod.TrackOrderComponent
+      ),
+  },
+  {
+    path: 'admin/analytics',
+    loadComponent: () =>
+      import('./admin/components/analytics/analytics.component').then(
+        (mod) => mod.AnalyticsComponent
+      ),
+  },
 ];
