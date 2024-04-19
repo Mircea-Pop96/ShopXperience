@@ -121,4 +121,11 @@ export const routes: Routes = [
         './customer/components/view-product-detail/view-product-detail.component'
       ).then((mod) => mod.ViewProductDetailComponent),
   },
+  {
+    path: 'customer/wishlist',
+    loadComponent: () =>
+      import(
+        './customer/components/view-wish-list/view-wish-list.component'
+      ).then((mod) => mod.ViewWishlistComponent),
+  },
 ];

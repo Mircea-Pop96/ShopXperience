@@ -19,10 +19,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { UserStorageService } from '../../../services/storage/user-storage.service';
 
 @Component({
-  selector: 'app-view-product-detail',
+  selector: 'app-view-wish-list',
   standalone: true,
   imports: [
     DatePipe,
@@ -45,14 +44,11 @@ import { UserStorageService } from '../../../services/storage/user-storage.servi
     MatTableModule,
     CommonModule,
   ],
-  templateUrl: './view-product-detail.component.html',
-  styleUrl: './view-product-detail.component.scss',
+  templateUrl: './view-wish-list.component.html',
+  styleUrl: './view-wish-list.component.scss',
 })
-export class ViewProductDetailComponent {
-  productId: any;
-  product: any;
-  FAQS: any[] = [];
-  reviews: any[] = [];
+export class ViewWishlistComponent {
+  products: any[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,48 +58,15 @@ export class ViewProductDetailComponent {
   ) {}
 
   ngOnInit() {
-    this.productId = this.activatedRoute.snapshot.params['productId'];
-    this.getProductDetailsById();
+    this.getWishlistByUserId();
   }
 
-  getProductDetailsById() {
-    this.customerService
-      .getProductDetailById(this.productId)
-      .subscribe((res) => {
-        this.product = res.productDto;
-        this.product.processedImg =
-          'data:image/png;base64, ' + res.productDto.byteImg;
-
-        this.FAQS = res.faqDtoList;
-
-        res.reviewDtoList.forEach((element) => {
-          element.processedImg =
-            'data:image/png;base64, ' + element.returnedImg;
-          this.reviews.push(element);
-        });
+  getWishlistByUserId() {
+    this.customerService.getWishlistByUserId().subscribe((res) => {
+      res.forEach((element) => {
+        element.processedImg = 'data:image/jpeg;base64, ' + element.returnedImg;
+        this.products.push(element);
       });
-  }
-
-  goToReview(productId) {
-    this.router.navigateByUrl(`/customer/review/${productId}`);
-  }
-
-  addToWishlist() {
-    const wishlistDto = {
-      productId: this.productId,
-      userId: UserStorageService.getUserId(),
-    };
-
-    this.customerService.addProductToWishlist(wishlistDto).subscribe((res) => {
-      if (!res.id) {
-        this.snackBar.open('Product Added to Wishlist Succesfully', 'Close', {
-          duration: 5000,
-        });
-      } else {
-        this.snackBar.open('Already in Wishlist', 'Close', {
-          duration: 5000,
-        });
-      }
     });
   }
 }
